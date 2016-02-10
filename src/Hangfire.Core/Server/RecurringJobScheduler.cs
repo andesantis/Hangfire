@@ -67,7 +67,7 @@ namespace Hangfire.Server
     {
         private static readonly TimeSpan LockTimeout = TimeSpan.FromMinutes(1);
         private static readonly ILog Logger = LogProvider.GetCurrentClassLogger();
-        
+
         private readonly IBackgroundJobFactory _factory;
         private readonly Func<CrontabSchedule, TimeZoneInfo, IScheduleInstant> _instantFactory;
         private readonly IThrottler _throttler;
@@ -80,7 +80,7 @@ namespace Hangfire.Server
             : this(new BackgroundJobFactory())
         {
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RecurringJobScheduler"/>
         /// class with custom background job factory.
@@ -101,7 +101,7 @@ namespace Hangfire.Server
             if (factory == null) throw new ArgumentNullException("factory");
             if (instantFactory == null) throw new ArgumentNullException("instantFactory");
             if (throttler == null) throw new ArgumentNullException("throttler");
-            
+
             _factory = factory;
             _instantFactory = instantFactory;
             _throttler = throttler;
@@ -155,17 +155,17 @@ namespace Hangfire.Server
 
         private void TryScheduleJob(
             JobStorage storage,
-            IStorageConnection connection, 
-            string recurringJobId, 
+            IStorageConnection connection,
+            string recurringJobId,
             IReadOnlyDictionary<string, string> recurringJob)
         {
-            var serializedJob = JobHelper.FromJson<InvocationData>(recurringJob["Job"]);
-            var job = serializedJob.Deserialize();
-            var cron = recurringJob["Cron"];
-            var cronSchedule = CrontabSchedule.Parse(cron);
-
             try
             {
+                var serializedJob = JobHelper.FromJson<InvocationData>(recurringJob["Job"]);
+                var job = serializedJob.Deserialize();
+                var cron = recurringJob["Cron"];
+                var cronSchedule = CrontabSchedule.Parse(cron);
+
                 var timeZone = recurringJob.ContainsKey("TimeZoneId")
                     ? TimeZoneInfo.FindSystemTimeZoneById(recurringJob["TimeZoneId"])
                     : TimeZoneInfo.Utc;
@@ -212,6 +212,10 @@ namespace Hangfire.Server
                 Logger.ErrorException(
                     String.Format("Recurring job '{0}' was not triggered: {1}.", recurringJobId, ex.Message),
                     ex);
+            }
+            catch (JobLoadException)
+            {
+                return;
             }
         }
     }
