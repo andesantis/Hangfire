@@ -20,9 +20,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Net45\Hangfire.Core.dll" target="lib\net45" />
-    <file src="Net45\Hangfire.Core.xml" target="lib\net45" />
-    <file src="Net45\Hangfire.Core.pdb" target="lib\net45" />
-    <file src="..\src\Hangfire.Core\**\*.cs;..\src\Hangfire.Core\**\*.cshtml" target="src" />
+    <file src="Hangfire.Core\bin\Release\Hangfire.Core.dll" target="lib\net45" />
+    <file src="Hangfire.Core\bin\Release\Hangfire.Core.xml" target="lib\net45" />
+    <file src="Hangfire.Core\bin\Release\Hangfire.Core.pdb" target="lib\net45" />
+    
   </files>
 </package>
