@@ -16,7 +16,7 @@
     </releaseNotes>
     <dependencies>
       <dependency id="Owin" version="1.0" />
-      <dependency id="Newtonsoft.Json" version="5.0.0" />
+      <dependency id="Newtonsoft.Json" version="5.0.0" /> 
     </dependencies>
   </metadata>
   <files>
